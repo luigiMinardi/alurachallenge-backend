@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-39=ers(=-i1aj%*^p_djo@1sh-61+ewfg=kl$a!4%%up77&aiq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -131,3 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'obeflix_back.exceptions.custom_exception_handler'
 }
+
+import django
+
+django.setup()
