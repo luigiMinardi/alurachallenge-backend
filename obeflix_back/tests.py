@@ -1,4 +1,3 @@
-from django.http import response
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
@@ -98,8 +97,8 @@ class VideoTestCase(APITestCase):
             *response
         """
         expected_response = {"detail": "Vídeo deletado com sucesso!"}
-        response = self.client.delete('/videos/1', follow=True)
-        print("data:", response.data['detail'])
+        response = self.client.delete('/videos/1/', follow=True)
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, expected_response)
 
@@ -113,7 +112,7 @@ class VideoTestCase(APITestCase):
     ?CRUD
     *post
     *put
-    !delete
+    *delete
     !get-all
     !get-one
     
