@@ -1,4 +1,3 @@
-from os import stat
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
@@ -31,9 +30,9 @@ class VideoTestCase(APITestCase):
         self.response = self.client.post(self.url, self.data, format='json')
 
 
-    def test_if_data_is_valid_create_a_video_and_return_201(self):
+    def test_if_data_is_valid_return_the_created_video_and_201(self):
         """
-        (POST) Se os dados são válidos cria um video, retorne os dados em um json e 201.
+        (POST) Se os dados são válidos, retorne o video criado em um json e 201.
         """
         """
             *url
@@ -107,10 +106,10 @@ class VideoTestCase(APITestCase):
         (GET) Quando procurando todos os videos retorne um json com todos os videos e 200.
         """
         """
-            ?url
-            ?uuid
-            ?data
-            ?response
+            *url
+            *uuid
+            *data
+            *response
         """
         data2 = {
             "titulo": "Teste2",
@@ -128,9 +127,9 @@ class VideoTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, expected_response)
 
-    def test_if_any_data_is_blank_dont_create_a_video_and_return_400(self):
+    def test_if_any_data_is_blank_return_return_a_custom_blank_json_error_and_400(self):
             """
-            (ERROR-BLANK) Se algum dado estiver vazio não crie um video e retorne 400.
+            (ERROR-BLANK) Se algum dado estiver vazio retorne um json com o erro de onde estiver vazio e 400.
             """
             """
                 *url
@@ -146,6 +145,49 @@ class VideoTestCase(APITestCase):
             self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
             self.assertEqual(response.data, expected_response)
 
+    def test_if_any_data_has_more_length_than_the_max_return_a_custom_length_json_error_and_400(self):
+        """
+        (ERROR-MAX_LENGTH) Se algum dado exceder o tamanho retorne um json com o erro de tamanho e 400.
+        """
+        """
+            *url
+            *uuid
+            *data
+            !response
+        """
+        self.data["titulo"] = "1234567890123456789012345678901"
+
+        expected_response = {'titulo': ['Titulo só pode ter 30 caracteres!']}
+        response = self.client.post(self.url, self.data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data, expected_response)
+
+    def test_if_any_data_has_invalid_type_return_a_custom_invalid_json_error_and_400(self):
+        """
+        (ERROR-INVALID) Se algum dado for inválido retorne um json com o erro de dado invalido e 400.
+        """
+        """
+            *url
+            *uuid
+            *data
+            !response
+        """
+        self.data["url"] = "blank.page"
+
+        expected_response = {'url': ['Url inválida!']}
+        response = self.client.post(self.url, self.data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data, expected_response)
+    
+
+        """
+            ?url
+            ?uuid
+            ?data
+            ?response
+        """
 """
     * = DONE
     ! = TODO
@@ -163,11 +205,11 @@ class VideoTestCase(APITestCase):
     ?ERRORS (exceptions)
     // post
     *blank
-    !max_length
-    !invalid
+    *max_length
+    *invalid
     //put
     !put-video-inexistente
-    !put-get-exception
+    !put-with-exception
     //delete
     !delete-video-inexistente
     //get
