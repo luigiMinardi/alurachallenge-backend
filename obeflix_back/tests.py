@@ -87,7 +87,21 @@ class VideoTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, expected_response)
 
-    
+    def test_when_deleting_video_return_a_json_of_success_and_200(self):
+        """
+        (DELETE) Quando deletando um video retorne um json de sucesso e 200.
+        """
+        """
+            *url
+            *uuid
+            *data
+            *response
+        """
+        expected_response = {"detail": "Vídeo deletado com sucesso!"}
+        response = self.client.delete('/videos/1', follow=True)
+        print("data:", response.data['detail'])
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, expected_response)
 
 """
     * = DONE
