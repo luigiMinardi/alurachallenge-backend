@@ -1,7 +1,9 @@
+from os import stat
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
 from uuid import uuid1
+from collections import OrderedDict
 
 from obeflix_back.models import Video
 
@@ -44,25 +46,6 @@ class VideoTestCase(APITestCase):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Video.objects.filter(descricao__iexact=f'{self.uuid.int}').count(), 1)
         self.assertEqual(self.response.data, expected_response)
-
-
-    def test_if_any_data_is_blank_dont_create_a_video_and_return_400(self):
-        """
-        (ERROR) Se algum dado estiver vazio não crie um video e retorne 400.
-        """
-        """
-            *url
-            *uuid
-            *data
-            !response
-        """
-        self.data["url"] = ""
-        
-        expected_response = {"url":["Url está em branco, por favor preencha corretamente."]}
-        response = self.client.post(self.url, self.data, format='json')
-
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data, expected_response)
         
     def test_when_changing_value_return_a_json_with_values_and_200(self):
         """
@@ -101,25 +84,96 @@ class VideoTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, expected_response)
+    
+    def test_when_getting_a_video_return_a_json_with_the_video_and_200(self):
+        """
+        (GET) Quando prucurando um video retorne um json com o video e 200.
+        """
+        """
+            *url
+            *uuid
+            *data
+            *response
+        """
+
+        expected_response = {"id":1,"titulo":"Teste","descricao":f"{self.uuid.int}","url":"http://blank.page"}
+        response = self.client.get("/videos/1/")
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, expected_response)
+
+    def test_when_getting_all_videos_return_a_json_with_all_videos_and_200(self):
+        """
+        (GET) Quando procurando todos os videos retorne um json com todos os videos e 200.
+        """
+        """
+            ?url
+            ?uuid
+            ?data
+            ?response
+        """
+        data2 = {
+            "titulo": "Teste2",
+            "descricao": f"{self.uuid.hex}",
+            "url": "http://blank.page"
+        }
+        self.client.post(self.url, data2, format='json')
+
+        expected_response = [
+            OrderedDict([('id', 1), ('titulo', 'Teste'), ('descricao', f'{self.uuid.int}'), ('url', 'http://blank.page')]), 
+            OrderedDict([('id', 2), ('titulo', 'Teste2'), ('descricao', f'{self.uuid.hex}'), ('url', 'http://blank.page')])
+        ]
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, expected_response)
+
+    def test_if_any_data_is_blank_dont_create_a_video_and_return_400(self):
+            """
+            (ERROR-BLANK) Se algum dado estiver vazio não crie um video e retorne 400.
+            """
+            """
+                *url
+                *uuid
+                *data
+                !response
+            """
+            self.data["url"] = ""
+            
+            expected_response = {"url":["Url está em branco, por favor preencha corretamente."]}
+            response = self.client.post(self.url, self.data, format='json')
+
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+            self.assertEqual(response.data, expected_response)
 
 """
     * = DONE
     ! = TODO
     ? = What are beeing tested
-    // = depreciated
+    // = type
     
     TODO:
     ?CRUD
     *post
     *put
     *delete
-    !get-all
-    !get-one
+    *get-all
+    *get-one
     
     ?ERRORS (exceptions)
+    // post
     *blank
     !max_length
     !invalid
+    //put
+    !put-video-inexistente
+    !put-get-exception
+    //delete
+    !delete-video-inexistente
+    //get
+    !get-video-inexistente
+    !get-blank-data-base
+
 """
 
 """
