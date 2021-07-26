@@ -223,7 +223,7 @@ class VideoTestCase(APITestCase):
     
     def test_when_deleting_an_inexistent_video_return_a_json__custom_error_and_404(self):
         """
-        (ERROR-DELETE) Quando deletando um video inexistente retorno um erro e 404.
+        (ERROR-DELETE) Quando deletando um video inexistente retorno um erro customizado e 404.
         """
         """
             !url
@@ -239,7 +239,7 @@ class VideoTestCase(APITestCase):
 
     def test_when_getting_an_inexistent_video_return_a_json_custom_error_and_404(self):
         """
-        (ERROR-GET-ONE)
+        (ERROR-GET-ONE) Pegando um video inexistente retorne um erro customizado e 404.
         """
         """
         ?url
@@ -255,7 +255,7 @@ class VideoTestCase(APITestCase):
         self.assertEqual(response.data, expected_response)
 
 """
-    TODO: Return a better response for PUT 404
+    TODO: Refactor exceptions
     * = DONE
     ! = TODO
     ? = What are beeing tested
