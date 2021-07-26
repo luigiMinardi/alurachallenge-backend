@@ -1,3 +1,4 @@
+from django.http import response
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
@@ -29,7 +30,6 @@ class VideoTestCase(APITestCase):
         }
         self.response = self.client.post(self.url, self.data, format='json')
 
-
     def test_if_data_is_valid_return_the_created_video_and_201(self):
         """
         (POST) Se os dados são válidos, retorne o video criado em um json e 201.
@@ -45,7 +45,7 @@ class VideoTestCase(APITestCase):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Video.objects.filter(descricao__iexact=f'{self.uuid.int}').count(), 1)
         self.assertEqual(self.response.data, expected_response)
-        
+
     def test_when_changing_value_return_a_json_with_values_and_200(self):
         """
         (PUT) Quando trocando um dado, retorne um json com os dados e 200.
@@ -86,7 +86,7 @@ class VideoTestCase(APITestCase):
     
     def test_when_getting_a_video_return_a_json_with_the_video_and_200(self):
         """
-        (GET) Quando prucurando um video retorne um json com o video e 200.
+        (GET-ONE) Quando prucurando um video retorne um json com o video e 200.
         """
         """
             *url
@@ -103,7 +103,7 @@ class VideoTestCase(APITestCase):
 
     def test_when_getting_all_videos_return_a_json_with_all_videos_and_200(self):
         """
-        (GET) Quando procurando todos os videos retorne um json com todos os videos e 200.
+        (GET-ALL) Quando procurando todos os videos retorne um json com todos os videos e 200.
         """
         """
             *url
@@ -128,22 +128,22 @@ class VideoTestCase(APITestCase):
         self.assertEqual(response.data, expected_response)
 
     def test_if_any_data_is_blank_return_return_a_custom_blank_json_error_and_400(self):
-            """
-            (ERROR-BLANK) Se algum dado estiver vazio retorne um json com o erro de onde estiver vazio e 400.
-            """
-            """
-                *url
-                *uuid
-                *data
-                !response
-            """
-            self.data["url"] = ""
-            
-            expected_response = {"url":["Url está em branco, por favor preencha corretamente."]}
-            response = self.client.post(self.url, self.data, format='json')
+        """
+        (ERROR-BLANK) Se algum dado estiver vazio retorne um json com o erro de onde estiver vazio e 400.
+        """
+        """
+            *url
+            *uuid
+            *data
+            !response
+        """
+        self.data["url"] = ""
+        
+        expected_response = {"url":["Url está em branco, por favor preencha corretamente."]}
+        response = self.client.post(self.url, self.data, format='json')
 
-            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-            self.assertEqual(response.data, expected_response)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data, expected_response)
 
     def test_if_any_data_has_more_length_than_the_max_return_a_custom_length_json_error_and_400(self):
         """
@@ -180,42 +180,113 @@ class VideoTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data, expected_response)
-    
 
+    def test_when_changing_value_has_an_exception_return_a_custom_json_error_and_400(self):
         """
-            ?url
-            ?uuid
-            ?data
-            ?response
+        (ERROR-PUT) Quando temos um erro nos dados para alterar a informação de um video retorne um erro customizado e 400. 
         """
+        """
+            *url
+            *uuid
+            *data
+            *response
+        """
+
+        data2 = {
+            "titulo": "Teste2",
+            "descricao": f"{self.uuid.hex}",
+            "url": "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901"
+        }
+
+        except_response = {'url': ['Url só pode ter 200 caracteres!','Url inválida!']}
+        response = self.client.put('/videos/1/',data2,format='json',follow=True)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data, except_response)
+
+    def test_when_changing_value_in_an_inexistent_video_return_a__custom_not_found_json_error_and_404(self):
+        """
+        (ERROR-PUT) Quando alterando a informação de um video inexistente retorne um erro customizado e 404.
+        """
+        """
+            !url
+            *uuid
+            *data
+            !response
+        """
+        # Error code='not_found'
+        expected_response = {'detail': 'Vídeo não encontrado.'}
+        response = self.client.put('/videos/2/',self.data, format='json', follow=True)
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.data, expected_response)
+    
+    def test_when_deleting_an_inexistent_video_return_a_json__custom_error_and_404(self):
+        """
+        (ERROR-DELETE) Quando deletando um video inexistente retorno um erro e 404.
+        """
+        """
+            !url
+            !uuid
+            !data
+            !response
+        """
+        expected_response = {'detail': 'Vídeo não encontrado.'}
+        response = self.client.delete('/videos/2/', follow=True)
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.data, expected_response)
+
+    def test_when_getting_an_inexistent_video_return_a_json_custom_error_and_404(self):
+        """
+        (ERROR-GET-ONE)
+        """
+        """
+        ?url
+        ?uuid
+        ?data
+        ?response
+        """
+
+        expected_response = {'detail': 'Vídeo não encontrado.'}
+        response = self.client.get('/videos/2/')
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.data, expected_response)
+
 """
+    TODO: Return a better response for PUT 404
     * = DONE
     ! = TODO
     ? = What are beeing tested
     // = type
-    
+    //any// = title
+
     TODO:
     ?CRUD
-    *post
+    //201//
     *put
+    //200//
+    *post
     *delete
     *get-all
     *get-one
     
     ?ERRORS (exceptions)
+    //400//
     // post
     *blank
     *max_length
     *invalid
     //put
-    !put-video-inexistente
-    !put-with-exception
+    *put-with-exception && *not_found
+    //404//
+    //put
+    *put-video-inexistente
     //delete
-    !delete-video-inexistente
+    *delete-video-inexistente
     //get
-    !get-video-inexistente
-    !get-blank-data-base
-
+    *get-one-video-inexistente
 """
 
 """
@@ -224,8 +295,4 @@ data2 = {
             "descricao": f"{self.uuid.hex}",
             "url": "http://blank.page"
         }
-success delete:
-    {"detail": "Vídeo deletado com sucesso!"}
-dont find delete:
-    {"detail": "Vídeo não encontrado."}
 """

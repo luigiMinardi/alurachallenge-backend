@@ -10,7 +10,7 @@ class VideosViewSet(viewsets.ModelViewSet):
     serializer_class = VideoSerializer
 
     def destroy(self, request, *args, **kwargs):
-        """Deletando um video"""
+        """(DELETE) Deletando um video"""
         try:
             instance = self.get_object()
             self.perform_destroy(instance)

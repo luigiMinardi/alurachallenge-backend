@@ -1,4 +1,4 @@
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError, ErrorDetail
 from rest_framework.views import exception_handler
 
 from re import findall
@@ -65,6 +65,10 @@ def custom_exception_handler(exc, context):
                 # customisa a mensagem de erro do blank
                 elif codigo_erro == 'blank':
                     response.data[key][index_erro] = f'{key} está em branco, por favor preencha corretamente.'.capitalize()
+    else:
+        # customisa a mensagem de erro do not_found
+        if response.data['detail'].code == 'not_found':
+            response.data['detail'] = 'Vídeo não encontrado.'
 
     return response
 """#"""
