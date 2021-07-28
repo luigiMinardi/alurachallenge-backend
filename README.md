@@ -26,7 +26,7 @@
   <a href="https://www.django-rest-framework.org/#requirements">
     <img alt="PyPI - Django Version" src="https://img.shields.io/pypi/djversions/djangorestframework?color=%2300C86F">
   </a>
-  <a href="https://github.com/luigiMinardi/alurachallenge-backend">
+  <a href="https://github.com/luigiMinardi/alurachallenge-backend/blob/main/LICENSE">
     <img alt="GitHub license" src="https://img.shields.io/github/license/luigiMinardi/alurachallenge-backend?color=%2300C86F">
   </a>
   <a href="https://pypi.org/project/djangorestframework/">
