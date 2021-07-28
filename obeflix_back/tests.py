@@ -46,9 +46,9 @@ class VideoTestCase(APITestCase):
         self.assertEqual(Video.objects.filter(descricao__iexact=f'{self.uuid.int}').count(), 1)
         self.assertEqual(self.response.data, expected_response)
 
-    def test_when_changing_value_return_a_json_with_values_and_200(self):
+    def test_when_changing_all_values_return_a_json_with_values_and_200(self):
         """
-        (PUT) Quando trocando um dado, retorne um json com os dados e 200.
+        (PUT) Quando trocando todos os dado, retorne um json com os dados e 200.
         """
         """
             *url
@@ -64,6 +64,26 @@ class VideoTestCase(APITestCase):
 
         expected_response = {"id":1,"titulo":"Teste2","descricao":f"{self.uuid.hex}","url":"http://blank.page"}
         response = self.client.put('/videos/1/',data2, format='json', follow=True)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, expected_response)
+    
+    def test_when_changing_one_value_return_a_json_with_values_and_200(self):
+        """
+        (PATCH) Quando trocando um dado, retorne um json com os dados e 200.
+        """
+        """
+            *url
+            *uuid
+            *data
+            *response
+        """
+        data2 = {
+            "url": "https://randompage.net/"
+        }
+
+        expected_response = {"id":1,"titulo":"Teste","descricao":f"{self.uuid.int}","url":"https://randompage.net/"}
+        response = self.client.patch('/videos/1/',data2, format='json', follow=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, expected_response)
@@ -181,9 +201,9 @@ class VideoTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data, expected_response)
 
-    def test_when_changing_value_has_an_exception_return_a_custom_json_error_and_400(self):
+    def test_when_changing_all_values_has_an_exception_return_a_custom_json_error_and_400(self):
         """
-        (ERROR-PUT) Quando temos um erro nos dados para alterar a informação de um video retorne um erro customizado e 400. 
+        (ERROR-PUT) Quando temos um erro ao alterar todos os dados de um video retorne um erro customizado e 400. 
         """
         """
             *url
@@ -198,15 +218,40 @@ class VideoTestCase(APITestCase):
             "url": "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901"
         }
 
-        except_response = {'url': ['Url só pode ter 200 caracteres!','Url inválida!']}
+        expected_response = {'url': ['Url só pode ter 200 caracteres!','Url inválida!']}
         response = self.client.put('/videos/1/',data2,format='json',follow=True)
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data, except_response)
+        self.assertEqual(response.data, expected_response)
+    
+    def test_when_changing_one_value_has_an_exception_return_a_custom_json_error_and_400(self):
+        """
+        (ERROR-PATCH) Quando temos um erro ao alterar um dado de um video retorne um erro customizado e 400. 
+        """
+        """
+            *url
+            *uuid
+            *data
+            *response
+        """
+
+        data2 = {
+            "descricao": "",
+            "titulo": ""
+        }
+
+        expected_response = {
+            'titulo': ['Titulo está em branco, por favor preencha corretamente.'], 
+            'descricao': ['Descricao está em branco, por favor preencha corretamente.']
+        }
+        response = self.client.patch('/videos/1/',data2,format='json',follow=True)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data, expected_response)
 
     def test_when_changing_value_in_an_inexistent_video_return_a__custom_not_found_json_error_and_404(self):
         """
-        (ERROR-PUT) Quando alterando a informação de um video inexistente retorne um erro customizado e 404.
+        (ERROR-PUT) Quando alterando as informações de um video inexistente retorne um erro customizado e 404.
         """
         """
             !url
@@ -242,10 +287,10 @@ class VideoTestCase(APITestCase):
         (ERROR-GET-ONE) Pegando um video inexistente retorne um erro customizado e 404.
         """
         """
-        ?url
-        ?uuid
-        ?data
-        ?response
+            !url
+            !uuid
+            !data
+            !response
         """
 
         expected_response = {'detail': 'Vídeo não encontrado.'}
@@ -254,6 +299,25 @@ class VideoTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(response.data, expected_response)
 
+    def test_when_patching_an_inexistent_video_return_a_json_custom_error_and_404(self):
+        """
+        (ERROR-PATCH) Quando alterando uma informação específica de um video inexistente retorne um erro customizado e 404.
+        """
+        """
+            !url
+            !uuid
+            !data
+            !response
+        """
+        data2 = {
+            "url": "https://randompage.net/"
+        }
+
+        expected_response = {'detail': 'Vídeo não encontrado.'}
+        response = self.client.patch('/videos/2', data2, format="json", follow=True)
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.data, expected_response)
 """
     TODO: Refactor exceptions
     * = DONE
@@ -268,7 +332,7 @@ class VideoTestCase(APITestCase):
     *post
     //200//
     *put
-    !patch
+    *patch
     *delete
     *get-all
     *get-one
@@ -280,12 +344,14 @@ class VideoTestCase(APITestCase):
     *max_length
     *invalid
     //put
-    *put-with-exception && *not_found
+    *put-with-exception && *max_length && *invalid
+    //patch
+    *patch-with-exception && *blank
     //404//
     //put
-    *put-video-inexistente
+    *put-video-inexistente && *not_found
     //patch
-    !patch-video-inexistente
+    *patch-video-inexistente
     //delete
     *delete-video-inexistente
     //get
