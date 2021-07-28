@@ -265,13 +265,14 @@ class VideoTestCase(APITestCase):
     TODO:
     ?CRUD
     //201//
-    *put
-    //200//
     *post
+    //200//
+    *put
+    !patch
     *delete
     *get-all
     *get-one
-    
+
     ?ERRORS (exceptions)
     //400//
     // post
@@ -283,6 +284,8 @@ class VideoTestCase(APITestCase):
     //404//
     //put
     *put-video-inexistente
+    //patch
+    !patch-video-inexistente
     //delete
     *delete-video-inexistente
     //get
