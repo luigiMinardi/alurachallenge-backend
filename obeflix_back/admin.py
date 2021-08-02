@@ -3,8 +3,8 @@ from obeflix_back.models import Video, Categoria
 
 
 class Videos(admin.ModelAdmin):
-    list_display = ('id', 'titulo', 'descricao', 'url', 'categoriaId')
-    list_display_links = ('id', 'titulo', 'categoriaId')
+    list_display = ('id', 'titulo', 'descricao', 'url')
+    list_display_links = ('id', 'titulo')
     search_fields = ('titulo', 'url',)
     list_per_page = 20
 

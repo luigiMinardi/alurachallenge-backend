@@ -27,7 +27,11 @@ class CategoriasViewSet(viewsets.ModelViewSet):
         """(DELETE) Deletando uma categoria"""
         try:
             instance = self.get_object()
-            self.perform_destroy(instance)
+            if instance == Categoria.objects.get(id__iexact=1):
+                return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED , data={'detail': 'Você não pode deletar a categoria 1.'})
+            else:
+                self.perform_destroy(instance)
         except: 
             return Response(status=status.HTTP_404_NOT_FOUND, data={'detail': 'Categoria não encontrada.'})
         return Response(status=status.HTTP_200_OK, data={'detail': 'Categoria deletada com sucesso!'})
+    
