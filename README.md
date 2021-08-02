@@ -70,6 +70,12 @@ Although the README has the english and the portuguese version I did not transla
   pip install -r requirements.txt
   ```
 
+* Make the Migrations:
+
+  ```bash
+  python manage.py makemigrations
+  ```
+
 * Run the DataBase Migration:
 
   ```bash
@@ -266,6 +272,12 @@ Getting one specified video in the database.
 
   ```bash
   pip install -r requirements.txt
+  ```
+
+* Crie as migrações no banco de dados:
+
+  ```bash
+  python manage.py makemigrations
   ```
 
 * Rode as migrações do banco de dados:
