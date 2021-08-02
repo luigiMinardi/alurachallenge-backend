@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from obeflix_back.models import Video
-from obeflix_back.serializer import VideoSerializer
+from obeflix_back.models import Video, Categoria
+from obeflix_back.serializer import VideoSerializer, CategoriaSerializer
 
 
 class VideosViewSet(viewsets.ModelViewSet):
@@ -15,5 +15,19 @@ class VideosViewSet(viewsets.ModelViewSet):
             instance = self.get_object()
             self.perform_destroy(instance)
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND, data={"detail": "Vídeo não encontrado."})
-        return Response(status=status.HTTP_200_OK, data={"detail": "Vídeo deletado com sucesso!"})
+            return Response(status=status.HTTP_404_NOT_FOUND, data={'detail': 'Vídeo não encontrado.'})
+        return Response(status=status.HTTP_200_OK, data={'detail': 'Vídeo deletado com sucesso!'})
+
+class CategoriasViewSet(viewsets.ModelViewSet):
+    """Exibindo todas as categorias"""
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        """(DELETE) Deletando uma categoria"""
+        try:
+            instance = self.get_object()
+            self.perform_destroy(instance)
+        except: 
+            return Response(status=status.HTTP_404_NOT_FOUND, data={'detail': 'Categoria não encontrada.'})
+        return Response(status=status.HTTP_200_OK, data={'detail': 'Categoria deletada com sucesso!'})

@@ -1,6 +1,5 @@
 from django.db import models
-from django.core.validators import URLValidator, MaxLengthValidator
-
+from obeflix_back.models.categoria import Categoria
 
 class Video(models.Model):
     titulo = models.CharField(
@@ -15,6 +14,8 @@ class Video(models.Model):
         max_length=200,
         help_text="Coloque o link para o vídeo",
     )
+    categoriaId = models.ForeignKey(to=Categoria, on_delete=models.SET_DEFAULT, default=1)
 
     def __str__(self):
         return self.titulo
+
