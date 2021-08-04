@@ -1,3 +1,4 @@
+from obeflix_back.views import CategoriasViewSet, VideosViewSet
 from rest_framework.exceptions import ValidationError, ErrorDetail
 from rest_framework.views import exception_handler
 
@@ -68,7 +69,10 @@ def custom_exception_handler(exc, context):
     else:
         # customisa a mensagem de erro do not_found
         if response.data['detail'].code == 'not_found':
-            response.data['detail'] = 'Vídeo não encontrado.'
+            if isinstance(context['view'], VideosViewSet):
+                response.data['detail'] = 'Vídeo não encontrado.'
+            if isinstance(context['view'], CategoriasViewSet):
+                response.data['detail'] = 'Categoria não encontrada.'
 
     return response
 """#"""
