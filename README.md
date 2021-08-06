@@ -5,16 +5,40 @@
 </div>
 <p align="center">
   <a href="#english">In English:</a><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="#installing">Installing</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#using-the-api">Using</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#running-tests">Testing</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#routes">Routes</a>
-  <br><a href="#português">Em Português:</a><br>
+  <a href="#routes">Routes</a>—↴—————↴
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="#português">Em Português:</a>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="#routes-to-videos">Videos</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#routes-to-categorias">Categorias</a>
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="#instalando">Instalando</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#usando-a-api">Usando</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#rodando-os-testes">Testes</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#rotas">Rotas</a>
-
+  <a href="#rotas">Rotas</a>—↴—————↴
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;
+  <a href="#rotas-dos-videos">Videos</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#rotas-das-categorias">Categorias</a>
 </p>
 <div align="center">
   <a href="https://github.com/alura-challenges/challenge-back-end">
@@ -95,9 +119,9 @@ Although the README has the english and the portuguese version I did not transla
 
 Now you are ready to use it.
 
-## Using the API
+# Using the API
 
-### Running Tests
+## Running Tests
 
 For run our automated tests do:
 
@@ -105,7 +129,9 @@ For run our automated tests do:
 python manage.py test
 ```
 
-### Routes
+## Routes
+
+### Routes to Videos
 
 #### POST /videos/
 ###### The response code must be `201`.
@@ -116,9 +142,9 @@ Add a new video in the database.
 
 ```json
 {
-    "titulo": "Max length is 30",
-    "descricao": "Max length is 300",
-    "url": "http://must-be-a-valid-url-with-max-length-of-200.page"
+  "titulo": "Max length is 30",
+  "descricao": "Max length is 300",
+  "url": "http://must-be-a-valid-url-with-max-length-of-200.page"
 }
 ```
 
@@ -129,7 +155,8 @@ Add a new video in the database.
   "id": 1,
   "titulo": "Max length is 30",
   "descricao": "Max length is 300",
-  "url": "http://must-be-a-valid-url-with-max-length-of-200.page"
+  "url": "http://must-be-a-valid-url-with-max-length-of-200.page",
+  "categoriaId": 1
 }
 ```
 
@@ -143,9 +170,10 @@ Change all values in specified video in the database.
 *Changing the video we've **POST** earlier, at url `/videos/1/`*
 ```json
 {
-    "titulo": "You already know my max length",
-    "descricao": "You already know my max length",
-    "url": "http://must-be-a-valid-url-with-max-length-of-200.com"
+  "titulo": "You already know my max length",
+  "descricao": "You already know my max length",
+  "url": "http://must-be-a-valid-url-with-max-length-of-200.com",
+  "categoriaId": 2
 }
 ```
 
@@ -156,7 +184,8 @@ Change all values in specified video in the database.
   "id": 1,
   "titulo": "You already know my max length",
   "descricao": "You already know my max length",
-  "url": "http://must-be-a-valid-url-with-max-length-of-200.com"
+  "url": "http://must-be-a-valid-url-with-max-length-of-200.com",
+  "categoriaId": 2
 }
 ```
 
@@ -181,7 +210,8 @@ Change some value in specified video in the database.
   "id": 1,
   "titulo": "You already know my max length",
   "descricao": "You already know my max length",
-  "url": "http://you-know-my-max-length-and-im-valid.com"
+  "url": "http://you-know-my-max-length-and-im-valid.com",
+  "categoriaId": 2
 }
 ```
 
@@ -213,13 +243,15 @@ Getting all the videos of the database.
     "id": 2,
     "titulo": "You already know my max length",
     "descricao": "You already know my max length",
-    "url": "http://must-be-a-valid-url-with-max-length-of-200.com"
+    "url": "http://must-be-a-valid-url-with-max-length-of-200.com",
+    "categoriaId": 1
   },
   {
     "id": 3,
     "titulo": "Max length is 30",
     "descricao": "Max length is 300",
-    "url": "http://must-be-a-valid-url-with-max-length-of-200.page"
+    "url": "http://must-be-a-valid-url-with-max-length-of-200.page",
+    "categoriaId": 2
   }
 ]
 ```
@@ -240,7 +272,159 @@ Getting one specified video in the database.
   "id": 2,
   "titulo": "You already know my max length",
   "descricao": "You already know my max length",
-  "url": "http://must-be-a-valid-url-with-max-length-of-200.com"
+  "url": "http://must-be-a-valid-url-with-max-length-of-200.com",
+  "categoriaId": 1
+}
+```
+
+### Routes to Categorias
+
+#### POST /categorias/
+###### The response code must be `201`.
+
+Add a new "categoria" in the database.
+
+##### Request Body:
+
+```json
+{
+  "titulo": "Max length is 30",
+  "cor": "#AFaf09"
+}
+```
+
+##### Response Body:
+
+```json
+{
+  "id": 2,
+  "titulo": "Max length is 30",
+  "cor": "#AFaf09"
+}
+```
+
+#### PUT /categorias/:id/
+###### The response code must be `200`.
+
+Change all values in specified "categoria" in the database.
+
+##### Request Body:
+
+*Changing the "categoria" we've **POST** earlier, at url `/categorias/2/`*
+```json
+{
+  "titulo": "You already know my max length",
+  "cor": "#AFaf09"
+}
+```
+
+##### Response Body:
+
+```json
+{
+  "id": 2,
+  "titulo": "You already know my max length",
+  "cor": "#AFaf09"
+}
+```
+
+#### PATCH /categorias/:id/
+###### The response code must be `200`.
+
+Change some value in specified "categoria" in the database.
+
+##### Request Body:
+
+*Changing the "categoria" with id 2 at `/categorias/2/`*
+```json
+{
+  "cor": "#0ff"
+}
+```
+
+##### Response Body:
+
+```json
+{
+  "id": 2,
+  "titulo": "You already know my max length",
+  "cor": "#0ff"
+}
+```
+
+#### DELETE /categorias/:id/
+###### The response code must be `200`.
+
+Delete the specified "categoria" in the database.
+
+##### Request:
+*Delete the "categoria" we've **POST** earlier, at `/categorias/2/`*
+##### Response Body:
+
+```json
+{
+  "detail": "Categoria deletada com sucesso!"
+}
+```
+
+#### DELETE /categorias/1/
+###### The response code must be `405`.
+
+Delete the first "categoria" in the database.
+
+##### Request:
+*Delete the first "categoria", at `/categorias/1/`*
+##### Response Body:
+
+```json
+{
+  "detail": "Você não pode deletar a categoria 1."
+}
+```
+
+#### GET /categorias/
+###### The response code must be `200`.
+
+Getting all the "categoria"'s of the database.
+
+##### Response Body:
+
+```json
+[
+  {
+    "id": 1,
+    "titulo": "LIVRE",
+    "cor": "#000"
+  },
+  {
+    "id": 3,
+    "titulo": "Max length is 30",
+    "cor": "#AFaf09"
+  },
+  {
+    "id": 4,
+    "titulo": "You already know my max length",
+    "cor": "#0ff"
+  }
+]
+```
+
+#### GET /categorias/:id
+###### The response code must be `200`.
+
+Getting one specified "categoria" in the database.
+
+##### Request:
+
+*Getting the "categoria" with id 3 at `/categorias/3/`*
+
+##### Response Body:
+
+```json
+{
+  "id": 3,
+  "titulo": "Max length is 30",
+  "cor": "#AFaf09"
 }
 ```
 
@@ -299,9 +483,9 @@ Getting one specified video in the database.
 
 Prontinho! Agora já pode usar a API.
 
-## Usando a API
+# Usando a API
 
-### Rodando os testes
+## Rodando os testes
 
 Para rodar nossos testes automatizados basta rodar esse comando:
 
@@ -309,7 +493,9 @@ Para rodar nossos testes automatizados basta rodar esse comando:
 python manage.py test
 ```
 
-### Rotas
+## Rotas
+
+### Rotas dos Videos
 
 #### POST /videos/
 ###### O código de resposta deve ser `201`.
@@ -320,9 +506,9 @@ Adicionando um novo video no banco de dados.
 
 ```json
 {
-    "titulo": "Comprimento máximo é 30",
-    "descricao": "Comprimento máximo é 300",
-    "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.page"
+  "titulo": "Comprimento máximo é 30",
+  "descricao": "Comprimento máximo é 300",
+  "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.page"
 }
 ```
 
@@ -333,7 +519,8 @@ Adicionando um novo video no banco de dados.
   "id": 1,
   "titulo": "Comprimento máximo é 30",
   "descricao": "Comprimento máximo é 300",
-  "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.page"
+  "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.page",
+  "categoriaId": 1
 }
 ```
 
@@ -347,9 +534,10 @@ Mudando todos os valores em um video específico no banco de dados.
 *Trocando os valores do video que demos **POST** mais cedo, usando a url `/videos/1/`*
 ```json
 {
-    "titulo": "Vc já sabe meu tamanho máximo.",
-    "descricao": "Vc já sabe meu tamanho máximo.",
-    "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.com"
+  "titulo": "Vc já sabe meu tamanho máximo.",
+  "descricao": "Vc já sabe meu tamanho máximo.",
+  "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.com",
+  "categoriaId": 2
 }
 ```
 
@@ -360,7 +548,8 @@ Mudando todos os valores em um video específico no banco de dados.
   "id": 1,
   "titulo": "Vc já sabe meu tamanho máximo.",
   "descricao": "Vc já sabe meu tamanho máximo.",
-  "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.com"
+  "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.com",
+  "categoriaId": 2
 }
 ```
 
@@ -385,7 +574,8 @@ Mudando um valor em um video específico no banco de dados.
   "id": 1,
   "titulo": "Vc já sabe meu tamanho máximo.",
   "descricao": "Vc já sabe meu tamanho máximo.",
-  "url": "http://voce-sabe-meu-tamanho-maximo-e-eu-sou-um-url-valido.com"
+  "url": "http://voce-sabe-meu-tamanho-maximo-e-eu-sou-um-url-valido.com",
+  "categoriaId": 2
 }
 ```
 
@@ -417,13 +607,15 @@ Pegando todos os videos do banco de dados.
     "id": 2,
     "titulo": "Vc já sabe meu tamanho máximo.",
     "descricao": "Vc já sabe meu tamanho máximo.",
-    "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.com"
+    "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.com",
+    "categoriaId": 1
   },
   {
     "id": 3,
     "titulo": "Comprimento máximo é 30",
     "descricao": "Comprimento máximo é 300",
-    "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.page"
+    "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.page",
+    "categoriaId": 2
   }
 ]
 ```
@@ -444,6 +636,164 @@ Pegando um video específico no banco de dados.
   "id": 2,
   "titulo": "Vc já sabe meu tamanho máximo.",
   "descricao": "Vc já sabe meu tamanho máximo.",
-  "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.com"
+  "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.com",
+  "categoriaId": 1
+}
+```
+
+### Rotas das Categorias
+
+#### POST /categorias/
+###### The response code must be `201`.
+
+Adicionando uma nova categoria no banco de dados.
+
+##### Request Body:
+
+```json
+{
+  "titulo": "Comprimento máximo é 30",
+  "cor": "#AFaf09"
+}
+```
+
+##### Response Body:
+
+```json
+{
+  "id": 2,
+  "titulo": "Comprimento máximo é 30",
+  "cor": "#AFaf09"
+}
+```
+
+#### PUT /categorias/:id/
+###### The response code must be `200`.
+
+Mudando todos os valores em uma categoria específica no banco de dados.
+
+##### Request Body:
+
+*Trocando os valores da categoria que demos **POST** mais cedo, usando a url `/categorias/2/`*
+
+```json
+{
+  "titulo": "Vc já sabe meu tamanho máximo.",
+  "cor": "#AFaf09"
+}
+```
+
+##### Response Body:
+
+```json
+{
+  "id": 2,
+  "titulo": "Vc já sabe meu tamanho máximo.",
+  "cor": "#AFaf09"
+}
+```
+
+#### PATCH /categorias/:id/
+###### The response code must be `200`.
+
+Mudando um valor em uma categoria específica no banco de dados.
+
+##### Request Body:
+
+*Mudando a categoria com o id 2 em `/categorias/2/`*
+
+```json
+{
+  "cor": "#0ff"
+}
+```
+
+##### Response Body:
+
+```json
+{
+  "id": 2,
+  "titulo": "Vc já sabe meu tamanho máximo.",
+  "cor": "#0ff"
+}
+```
+
+#### DELETE /categorias/:id/
+###### The response code must be `200`.
+
+Deletando uma categoria específica no banco de dados.
+
+##### Request:
+
+*Deletando a categoria que demos **POST** anteriormente, usando `/categorias/2/`*
+
+##### Response Body:
+
+```json
+{
+  "detail": "Categoria deletada com sucesso!"
+}
+```
+
+#### DELETE /categorias/1/
+###### The response code must be `405`.
+
+Deletando a primeira categoria do banco de dados.
+
+##### Request:
+
+*Deletando a primeira categoria, usando `/categorias/1/`*
+
+##### Response Body:
+
+```json
+{
+  "detail": "Você não pode deletar a categoria 1."
+}
+```
+
+#### GET /categorias/
+###### The response code must be `200`.
+
+Pegando todas as categorias do banco de dados.
+
+##### Response Body:
+
+```json
+[
+  {
+    "id": 1,
+    "titulo": "LIVRE",
+    "cor": "#000"
+  },
+  {
+    "id": 3,
+    "titulo": "Comprimento máximo é 30",
+    "cor": "#AFaf09"
+  },
+  {
+    "id": 4,
+    "titulo": "Vc já sabe meu tamanho máximo.",
+    "cor": "#0ff"
+  }
+]
+```
+
+#### GET /categorias/:id
+###### The response code must be `200`.
+
+Pegando uma categoria específica no banco de dados.
+
+##### Request:
+
+*Pegando a categoria em `/categorias/3/`*
+
+##### Response Body:
+
+```json
+{
+  "id": 3,
+  "titulo": "Comprimento máximo é 30",
+  "cor": "#AFaf09"
 }
 ```
