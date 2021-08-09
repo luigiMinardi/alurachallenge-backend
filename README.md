@@ -133,7 +133,7 @@ python manage.py test
 
 ### Routes to Videos
 
-#### /videos/ <u>Query Params</u>
+#### /videos/ Query Params
 
 #### Search
 
@@ -345,14 +345,14 @@ Getting all videos inside some "categoria".
 ]
 ```
 
-#### /categorias/:id/videos/ <u>Query Params:</u>
+#### /categorias/:id/videos/ Query Params:
 
 ##### Search
 
 Search videos inside some "categoria"
 
 ##### Request:
-> Works at the same way as the [Videos Search Query Param](#videos-uquery-paramsu)
+> Works at the same way as the [Videos Search Query Param](#videos-query-params)
 
 `/categorias/2/videos/?search=30`
 
@@ -595,7 +595,7 @@ python manage.py test
 
 ### Rotas dos Videos
 
-#### /videos/ <u>Parâmetros de Consulta (Query Params)</u>
+#### /videos/ Parâmetros de Consulta (Query Params)
 
 #### Search
 
@@ -807,14 +807,14 @@ Pegando todos os videos de dentro de uma categoria.
 ]
 ```
 
-#### /categorias/:id/videos/ <u>Parâmetros de Consulta (Query Params)</u>
+#### /categorias/:id/videos/ Parâmetros de Consulta (Query Params)
 
 ##### Search
 
 Pesquisando videos dentro de uma categoria
 
 ##### Request:
-> O search funciona da mesma maneira que o [Query Param de Search dos Videos](#videos-uparâmetros-de-consulta-query-paramsu)
+> O search funciona da mesma maneira que o [Query Param de Search dos Videos](#videos-parâmetros-de-consulta-query-params)
 
 `/categorias/2/videos/?search=30`
 
