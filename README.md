@@ -133,6 +133,53 @@ python manage.py test
 
 ### Routes to Videos
 
+#### /videos/ <u>Query Params</u>
+
+#### Search
+
+You can search videos using the query param `search`.
+
+##### Example 1:
+
+> *Searching something that some of the videos in the database has in the title.*
+
+Searching "Max" doing `/videos/?search=Max`
+
+##### Return:
+
+> *Returns all of the videos that match in the search.*
+```json
+[
+  {
+    "id": 2,
+    "titulo": "You already know my max length",
+    "descricao": "You already know my max length",
+    "url": "http://must-be-a-valid-url-with-max-length-of-200.com",
+    "categoriaId": 1
+  },
+  {
+    "id": 3,
+    "titulo": "Max length is 30",
+    "descricao": "Max length is 300",
+    "url": "http://must-be-a-valid-url-with-max-length-of-200.page",
+    "categoriaId": 2
+  }
+]
+```
+
+##### Example 2:
+
+> *Searching something that none of the videos in the database has in the title.*
+
+Searching "any" doing `/videos/?search=any`
+
+##### Return:
+
+> *Returns an empty list of videos because we didn't have any video that match in the database.*
+```json
+[]
+```
+
 #### POST /videos/
 ###### The response code must be `201`.
 
@@ -167,7 +214,7 @@ Change all values in specified video in the database.
 
 ##### Request Body:
 
-*Changing the video we've **POST** earlier, at url `/videos/1/`*
+> *Changing the video we've **POST** earlier, at url `/videos/1/`*
 ```json
 {
   "titulo": "You already know my max length",
@@ -196,7 +243,7 @@ Change some value in specified video in the database.
 
 ##### Request Body:
 
-*Changing the video with id 1 at `/videos/1/`*
+> *Changing the video with id 1 at `/videos/1/`*
 ```json
 {
 	"url": "http://you-know-my-max-length-and-im-valid.com"
@@ -221,7 +268,7 @@ Change some value in specified video in the database.
 Delete the specified video in the database.
 
 ##### Request:
-*Delete the video we've **POST** earlier, at `/videos/1/`*
+> *Delete the video we've **POST** earlier, at `/videos/1/`*
 ##### Response Body:
 
 ```json
@@ -263,7 +310,7 @@ Getting one specified video in the database.
 
 ##### Request:
 
-*Getting the video with id 2 at `/videos/2/`*
+> *Getting the video with id 2 at `/videos/2/`*
 
 ##### Response Body:
 
@@ -278,6 +325,57 @@ Getting one specified video in the database.
 ```
 
 ### Routes to Categorias
+
+#### GET /categorias/:id/videos/
+###### The response code must be `200`.
+
+Getting all videos inside some "categoria".
+
+##### Response:
+
+```json
+[
+  {
+    "id": 2,
+    "titulo": "You already know my max length",
+    "descricao": "You already know my max length",
+    "url": "http://must-be-a-valid-url-with-max-length-of-200.com",
+    "categoriaId": 1
+  }
+]
+```
+
+#### /categorias/:id/videos/ <u>Query Params:</u>
+
+##### Search
+
+Search videos inside some "categoria"
+
+##### Request:
+> Works at the same way as the [Videos Search Query Param](#videos-uquery-paramsu)
+
+`/categorias/2/videos/?search=30`
+
+#### Response:
+
+```json
+[
+  {
+    "id": 3,
+    "titulo": "Max length is 30",
+    "descricao": "Max length is 300",
+    "url": "http://must-be-a-valid-url-with-max-length-of-200.page",
+    "categoriaId": 2
+  },
+  {
+    "id": 7,
+    "titulo": "30 days to do an API",
+    "descricao": "Yes, in this video you will learn how you can do this or that...",
+    "url": "https://blank.page",
+    "categoriaId": 2
+  }
+]
+```
 
 #### POST /categorias/
 ###### The response code must be `201`.
@@ -310,7 +408,7 @@ Change all values in specified "categoria" in the database.
 
 ##### Request Body:
 
-*Changing the "categoria" we've **POST** earlier, at url `/categorias/2/`*
+> *Changing the "categoria" we've **POST** earlier, at url `/categorias/2/`*
 ```json
 {
   "titulo": "You already know my max length",
@@ -335,7 +433,7 @@ Change some value in specified "categoria" in the database.
 
 ##### Request Body:
 
-*Changing the "categoria" with id 2 at `/categorias/2/`*
+> *Changing the "categoria" with id 2 at `/categorias/2/`*
 ```json
 {
   "cor": "#0ff"
@@ -358,7 +456,7 @@ Change some value in specified "categoria" in the database.
 Delete the specified "categoria" in the database.
 
 ##### Request:
-*Delete the "categoria" we've **POST** earlier, at `/categorias/2/`*
+> *Delete the "categoria" we've **POST** earlier, at `/categorias/2/`*
 ##### Response Body:
 
 ```json
@@ -373,7 +471,7 @@ Delete the specified "categoria" in the database.
 Delete the first "categoria" in the database.
 
 ##### Request:
-*Delete the first "categoria", at `/categorias/1/`*
+> *Delete the first "categoria", at `/categorias/1/`*
 ##### Response Body:
 
 ```json
@@ -416,7 +514,7 @@ Getting one specified "categoria" in the database.
 
 ##### Request:
 
-*Getting the "categoria" with id 3 at `/categorias/3/`*
+> *Getting the "categoria" with id 3 at `/categorias/3/`*
 
 ##### Response Body:
 
@@ -497,6 +595,53 @@ python manage.py test
 
 ### Rotas dos Videos
 
+#### /videos/ <u>Parâmetros de Consulta (Query Params)</u>
+
+#### Search
+
+Você pode pesquisar videos usando o parâmetro `search`.
+
+##### Example 1:
+
+> *Pesquisar algo que algum dos videos no banco de dados tem no título.*
+
+Pesquisando "máximo", fazendo `/videos/?search=máximo`
+
+##### Return:
+
+> *Retorna todos os videos que conferem com a pesquisa.*
+```json
+[
+  {
+    "id": 2,
+    "titulo": "Vc já sabe meu tamanho máximo.",
+    "descricao": "Vc já sabe meu tamanho máximo.",
+    "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.com",
+    "categoriaId": 1
+  },
+  {
+    "id": 3,
+    "titulo": "Comprimento máximo é 30",
+    "descricao": "Comprimento máximo é 300",
+    "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.page",
+    "categoriaId": 2
+  }
+]
+```
+
+##### Example 2:
+
+> *Pesquisando algo que nenhum dos videos no banco de dados tem no título.*
+
+Pesquisando "qualquer", fazendo `/videos/?search=qualquer`
+
+##### Return:
+
+> *Retorna uma lista vazia de videos porque não tinha nada que inferisse a pesquisa.*
+```json
+[]
+```
+
 #### POST /videos/
 ###### O código de resposta deve ser `201`.
 
@@ -531,7 +676,7 @@ Mudando todos os valores em um video específico no banco de dados.
 
 ##### Request Body:
 
-*Trocando os valores do video que demos **POST** mais cedo, usando a url `/videos/1/`*
+> *Trocando os valores do video que demos **POST** mais cedo, usando a url `/videos/1/`*
 ```json
 {
   "titulo": "Vc já sabe meu tamanho máximo.",
@@ -560,7 +705,7 @@ Mudando um valor em um video específico no banco de dados.
 
 ##### Request Body:
 
-*Mudando o video com o id 1 em `/videos/1/`*
+> *Mudando o video com o id 1 em `/videos/1/`*
 ```json
 {
 	"url": "http://voce-sabe-meu-tamanho-maximo-e-eu-sou-um-url-valido.com"
@@ -585,7 +730,7 @@ Mudando um valor em um video específico no banco de dados.
 Deletando um video específico no banco de dados.
 
 ##### Request:
-*Deletando o video que demos **POST** anteriormente, usando `/videos/1/`*
+> *Deletando o video que demos **POST** anteriormente, usando `/videos/1/`*
 ##### Response Body:
 
 ```json
@@ -627,7 +772,7 @@ Pegando um video específico no banco de dados.
 
 ##### Request:
 
-*Pegando o video em `/videos/2/`*
+> *Pegando o video em `/videos/2/`*
 
 ##### Response Body:
 
@@ -643,8 +788,59 @@ Pegando um video específico no banco de dados.
 
 ### Rotas das Categorias
 
+#### GET /categorias/:id/videos/
+###### O código de resposta deve ser `200`.
+
+Pegando todos os videos de dentro de uma categoria.
+
+##### Response:
+
+```json
+[
+  {
+    "id": 2,
+    "titulo": "Vc já sabe meu tamanho máximo.",
+    "descricao": "Vc já sabe meu tamanho máximo.",
+    "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.com",
+    "categoriaId": 1
+  }
+]
+```
+
+#### /categorias/:id/videos/ <u>Parâmetros de Consulta (Query Params)</u>
+
+##### Search
+
+Pesquisando videos dentro de uma categoria
+
+##### Request:
+> O search funciona da mesma maneira que o [Query Param de Search dos Videos](#videos-uparâmetros-de-consulta-query-paramsu)
+
+`/categorias/2/videos/?search=30`
+
+#### Response:
+
+```json
+[
+  {
+    "id": 3,
+    "titulo": "Comprimento máximo é 30",
+    "descricao": "Comprimento máximo é 300",
+    "url": "http://deve-ser-um-url-valido-com-comprimento-maximo-de-200.page",
+    "categoriaId": 2
+  },
+  {
+    "id": 7,
+    "titulo": "30 dias pra fazer uma API",
+    "descricao": "Sim, nesse video você vai aprender como você pode fazer isso ou aquilo...",
+    "url": "https://blank.page",
+    "categoriaId": 2
+  }
+]
+```
+
 #### POST /categorias/
-###### The response code must be `201`.
+###### O código de resposta deve ser `201`.
 
 Adicionando uma nova categoria no banco de dados.
 
@@ -668,13 +864,13 @@ Adicionando uma nova categoria no banco de dados.
 ```
 
 #### PUT /categorias/:id/
-###### The response code must be `200`.
+###### O código de resposta deve ser `200`.
 
 Mudando todos os valores em uma categoria específica no banco de dados.
 
 ##### Request Body:
 
-*Trocando os valores da categoria que demos **POST** mais cedo, usando a url `/categorias/2/`*
+> *Trocando os valores da categoria que demos **POST** mais cedo, usando a url `/categorias/2/`*
 
 ```json
 {
@@ -694,13 +890,13 @@ Mudando todos os valores em uma categoria específica no banco de dados.
 ```
 
 #### PATCH /categorias/:id/
-###### The response code must be `200`.
+###### O código de resposta deve ser `200`.
 
 Mudando um valor em uma categoria específica no banco de dados.
 
 ##### Request Body:
 
-*Mudando a categoria com o id 2 em `/categorias/2/`*
+> *Mudando a categoria com o id 2 em `/categorias/2/`*
 
 ```json
 {
@@ -719,13 +915,13 @@ Mudando um valor em uma categoria específica no banco de dados.
 ```
 
 #### DELETE /categorias/:id/
-###### The response code must be `200`.
+###### O código de resposta deve ser `200`.
 
 Deletando uma categoria específica no banco de dados.
 
 ##### Request:
 
-*Deletando a categoria que demos **POST** anteriormente, usando `/categorias/2/`*
+> *Deletando a categoria que demos **POST** anteriormente, usando `/categorias/2/`*
 
 ##### Response Body:
 
@@ -736,13 +932,13 @@ Deletando uma categoria específica no banco de dados.
 ```
 
 #### DELETE /categorias/1/
-###### The response code must be `405`.
+###### O código de resposta deve ser `405`.
 
 Deletando a primeira categoria do banco de dados.
 
 ##### Request:
 
-*Deletando a primeira categoria, usando `/categorias/1/`*
+> *Deletando a primeira categoria, usando `/categorias/1/`*
 
 ##### Response Body:
 
@@ -753,7 +949,7 @@ Deletando a primeira categoria do banco de dados.
 ```
 
 #### GET /categorias/
-###### The response code must be `200`.
+###### O código de resposta deve ser `200`.
 
 Pegando todas as categorias do banco de dados.
 
@@ -780,13 +976,13 @@ Pegando todas as categorias do banco de dados.
 ```
 
 #### GET /categorias/:id
-###### The response code must be `200`.
+###### O código de resposta deve ser `200`.
 
 Pegando uma categoria específica no banco de dados.
 
 ##### Request:
 
-*Pegando a categoria em `/categorias/3/`*
+> *Pegando a categoria em `/categorias/3/`*
 
 ##### Response Body:
 
