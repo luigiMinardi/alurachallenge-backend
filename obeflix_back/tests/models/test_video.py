@@ -122,11 +122,32 @@ class VideoTestCase(APITestCase):
         self.client.post(self.url, data2, format='json')
 
         expected_response = [
-          OrderedDict([('id', 1), ('titulo', 'Teste'), ('descricao', f"{self.uuid.int}"), ('url', 'http://blank.page'), ('categoriaId', 1)]), 
-          OrderedDict([('id', 2), ('titulo', 'Teste2'), ('descricao', f"{self.uuid.hex}"), ('url', 'http://blank.page'), ('categoriaId', 1)])
+            OrderedDict([('id', 1), ('titulo', 'Teste'), ('descricao', f"{self.uuid.int}"), ('url', 'http://blank.page'), ('categoriaId', 1)]), 
+            OrderedDict([('id', 2), ('titulo', 'Teste2'), ('descricao', f"{self.uuid.hex}"), ('url', 'http://blank.page'), ('categoriaId', 1)])
         ]
 
         response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, expected_response)
+    
+    def test_when_getting_searched_videos_return_a_json_with_all_matched_seached_videos_and_200(self):
+        """
+        (VIDEO-GET-SEARCH) Quando pesquisando videos retorne um json com todos os videos relativos a pesquisa e 200.
+        """
+
+        data2 = {
+            "titulo": "Abacate",
+            "descricao": f"{self.uuid.hex}",
+            "url": "http://blank.page",
+        }
+        self.client.post(self.url, data2, format='json')
+
+        expected_response = [
+            OrderedDict([('id', 2), ('titulo', 'Abacate'), ('descricao', f"{self.uuid.hex}"), ('url', 'http://blank.page'), ('categoriaId', 1)])
+        ]
+
+        response = self.client.get('/videos/?search=abacate')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, expected_response)

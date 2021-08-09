@@ -11,3 +11,8 @@ class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Categoria
         fields = '__all__'
+
+class ListaVideoPorCategoriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Video
+        fields = '__all__'
