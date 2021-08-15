@@ -1,8 +1,10 @@
 from rest_framework import viewsets, status, filters, generics
 from rest_framework.response import Response
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
-from obeflix_back.models import Video, Categoria
-from obeflix_back.serializer import VideoSerializer, CategoriaSerializer, ListaVideoPorCategoriaSerializer
+from obeflix_back.models import Video, Categoria, categoria
+from obeflix_back.serializer import VideoSerializer, CategoriaSerializer, ListaVideoPorCategoriaSerializer, ListaVideoFreeSerializer
 
 
 class VideosViewSet(viewsets.ModelViewSet):
@@ -12,6 +14,9 @@ class VideosViewSet(viewsets.ModelViewSet):
     # "search" query param
     filter_backends = [filters.SearchFilter]
     search_fields = ['titulo']
+    # autenticação
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def destroy(self, request, *args, **kwargs):
         """(DELETE) Deletando um video"""
@@ -26,6 +31,9 @@ class CategoriasViewSet(viewsets.ModelViewSet):
     """Exibindo todas as categorias"""
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
+
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def destroy(self, request, *args, **kwargs):
         """(DELETE) Deletando uma categoria"""
@@ -47,6 +55,22 @@ class ListaVideosPorCategoria(generics.ListAPIView):
     
     serializer_class = ListaVideoPorCategoriaSerializer
 
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     # "search" query param
     filter_backends = [filters.SearchFilter]
     search_fields = ['titulo']
+
+class ListaVideosFree(generics.ListAPIView):
+    """Lista videos sem nececidade de autenticação"""
+
+    def get_queryset(self):
+        """filtra opcionalmente a categoria retornada de videos com seus videos gratuitos."""
+        queryset = Video.objects.all().order_by('-id')[:5]
+        categoria = self.request.query_params.get('categoria', None)
+        if categoria is not None:
+            queryset = Video.objects.filter(categoriaId=categoria).order_by('-id')[:5]
+        return queryset
+
+    serializer_class = ListaVideoFreeSerializer

@@ -129,7 +129,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Rest Framework
 
 REST_FRAMEWORK = {
-    'EXCEPTION_HANDLER': 'obeflix_back.exceptions.custom_exception_handler'
+    'EXCEPTION_HANDLER': 'obeflix_back.exceptions.custom_exception_handler',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5
 }
 
 import django
