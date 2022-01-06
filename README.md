@@ -85,7 +85,7 @@ Although the README has the english and the portuguese version I did not transla
   ```
   Windows:
   ```cmd
-  venv\Scripts\activate.bat
+  .venv\Scripts\activate.bat
   ```
 
 * Install all the requirements:
@@ -547,7 +547,7 @@ Getting one specified "categoria" in the database.
   ```
   Windows:
   ```cmd
-  venv\Scripts\activate.bat
+  .venv\Scripts\activate.bat
   ```
 
 * Instale todos os requerimentos:
